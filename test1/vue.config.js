@@ -12,8 +12,18 @@ const colors = require('colors-console');
 // 配置选项
 const config = {
     pages: Object.assign(getPages(), {
-        app: './src/main.js'    // 配置主入口文件（会生成 app.html，vue cli3并没有提供直接配置入口文件的选项）
-    })
+        app: './src/main.js',    // 配置主入口文件（会生成 app.html，vue cli3并没有提供直接配置入口文件的选项）
+       
+    }),
+    devServer: {
+        open: process.platform === 'yao',
+        host: '127.0.0.1',
+        port: 9099,
+        https: false,
+        hotOnly: false,
+        proxy: null, // 设置代理
+        before: app => {}
+    },
 };
 
 // 获取多页面的配置数据
