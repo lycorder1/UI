@@ -24,6 +24,12 @@ const config = {
         proxy: null, // 设置代理
         before: app => {}
     },
+    configureWebpack: {
+        devtool: 'source-map'
+    },
+    publicPath: process.env.NODE_ENV === 'production'
+    ? '/production-sub-path/'
+    : '/'
 };
 
 // 获取多页面的配置数据
