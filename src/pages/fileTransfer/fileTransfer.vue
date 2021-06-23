@@ -23,25 +23,57 @@
         ><a href="javascript:;" target="_blank">用户管理</a></el-menu-item
       >
     </el-menu>
+    <div class="viewC">
+      <div id="page1" v-bind:class="{'showc':showData.showc2_1}" >
+        <fileu-com></fileu-com>
+      </div>
+      <div id="page2" v-bind:class="{'showc':showData.showc2_2}"> 
+         <filed-com></filed-com>
+      </div>
+    </div>
+    
   </div>
 </template>
 
 <script>
+import FileuCom from '../../components/FileuCom.vue'
+import FiledCom from '../../components/FiledCom.vue'
+
 export default {
   data() {
     return {
       activeIndex: "1",
       activeIndex2: "1",
+      showData:{
+        showc2_1: true,
+        showc2_2: true,
+      },
     };
+  },
+  components: {
+    FileuCom,FiledCom
   },
   methods: {
     handleSelect(key, keyPath) {
        console.log(key,keyPath);
+       var _showData = this.showData;
+       Object.getOwnPropertyNames(this.showData).forEach(function(key){
+          _showData[key] = true;
+       });
+       var claVal = "showc"+key.replace("-","_");
+       eval(" this.showData."+claVal+"=false ");
     },
   },
+  
 };
 
 </script>
 
 <style scoped>
+.showc{
+  display: none;
+}
+.viewC{
+  margin:40px;
+}
 </style>

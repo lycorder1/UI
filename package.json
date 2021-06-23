@@ -10,10 +10,12 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^2.6.5",
     "element-ui": "^2.4.5",
     "sg-utils": "^1.4.6",
-    "vue": "^2.6.6"
+    "vue": "^2.6.6",
+    "vue-axios": "^3.2.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
@@ -42,7 +44,7 @@
       "eslint:recommended"
     ],
     "rules": {
-      "eslint-disable-next-line":false,
+      "eslint-disable-next-line": false,
       "no-console": "off"
     },
     "parserOptions": {
