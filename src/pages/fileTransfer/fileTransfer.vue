@@ -22,6 +22,7 @@
       <el-menu-item index="4"
         ><a href="javascript:;" target="_blank">用户管理</a></el-menu-item
       >
+       <el-menu-item index="5">登录</el-menu-item>
     </el-menu>
     <div class="viewC">
       <div id="page1" v-bind:class="{'showc':showData.showc2_1}" >
@@ -29,6 +30,9 @@
       </div>
       <div id="page2" v-bind:class="{'showc':showData.showc2_2}"> 
          <filed-com></filed-com>
+      </div>
+       <div id="page3" v-bind:class="{'showc':showData.showc5}"> 
+         <login></login>
       </div>
     </div>
     
@@ -38,6 +42,7 @@
 <script>
 import FileuCom from '../../components/FileuCom.vue'
 import FiledCom from '../../components/FiledCom.vue'
+import Login from '../../components/Login.vue'
 
 export default {
   data() {
@@ -47,11 +52,12 @@ export default {
       showData:{
         showc2_1: true,
         showc2_2: true,
+        showc5: true,
       },
     };
   },
   components: {
-    FileuCom,FiledCom
+    FileuCom,FiledCom,Login
   },
   methods: {
     handleSelect(key, keyPath) {
