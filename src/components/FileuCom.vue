@@ -3,7 +3,7 @@
     <el-upload
       class="upload-demo"
       ref="upload"
-      action="/REST/file/upload"
+      action="/REST/FileTransfer/file/upload"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :file-list="fileList"

@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 const glob = require('glob');
 const colors = require('colors-console');
+// const CompressionPlugin = require('compression-webpack-plugin');
 
 // 配置选项
 const config = {
@@ -18,7 +19,8 @@ const config = {
     devServer: {
         open: process.platform === 'yao',
         host: '127.0.0.1',
-        port: 9099,
+        // port: 9099,//product
+        port: 9098,//dev
         https: false,
         hotOnly: false,
         proxy: null, // 设置代理
@@ -27,9 +29,25 @@ const config = {
     configureWebpack: {
         devtool: 'source-map'
     },
+    // configureWebpack: config => {
+    //     if (process.env.NODE_ENV === 'production') {
+    //         return {
+    //             plugins: [ new CompressionPlugin({
+    //                 test: /.js$|.html$|\css|.jpg$|.png/, // 匹配文件名
+    //                 threshold: 10240, // 对超过10k的文件进行压缩
+    //                 deleteOriginalAssets: true // 是否删除原文件
+    //             })]
+    //         }
+    //     }
+    // },
     publicPath: process.env.NODE_ENV === 'production'
-    ? '/production-sub-path/'
-    : '/'
+    ? '/'
+    : '/',
+    // publicPath: '/',
+    // outputDir: 'dist', //构建输出目录
+    assetsDir:process.env.NODE_ENV === 'production'
+    ? 'production-sub-path/'
+    : '',
 };
 
 // 获取多页面的配置数据
@@ -68,7 +86,7 @@ function getPages() {
             entry: entryFile,               // 入口文件
             template: './public/index.html',// 模板文件
             filename: pageCode + '.html',   // 打包后的文件路径
-            minify: false,                  // 是否压缩
+            minify: true,                  // 是否压缩
             chunks: ['chunk-vendors', 'chunk-common', 'app', pageCode],   // 引入资源文件
             chunksSortMode: 'manual',       // 控制 chunk 的排序。none | auto（默认）| dependency（依赖）| manual（手动）| {function}
             pageData: pageData

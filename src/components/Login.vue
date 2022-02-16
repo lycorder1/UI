@@ -1,16 +1,16 @@
 <template>
   <div id="loginForm" style="width:240px;">
-  <el-form ref="form" :model="form" label-width="80px">
-  <el-form-item label="用户名">
-    <el-input v-model="form.userName"></el-input>
-  </el-form-item>
-  <el-form-item label="密码">
-    <el-input v-model="form.password"></el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="onSubmit">登录</el-button>
-  </el-form-item>
-</el-form>
+      <el-form ref="form" :model="form" label-width="80px">
+      <el-form-item label="用户名">
+        <el-input v-model="form.userName"></el-input>
+      </el-form-item>
+      <el-form-item label="密码">
+        <el-input v-model="form.password"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">登录</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -20,21 +20,14 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      fileList: [
-        // {
-        //   name: "food.jpeg",
-        //   url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-        // },
-        // {
-        //   name: "food2.jpeg",
-        //   url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-        // },
-      ],
       code:"",
       form:{
         userName:"",
         password:""
-      }
+      },
+      loginResult:{
+
+      },
     };
   },
   methods: {
@@ -54,7 +47,8 @@ export default {
             //TODO 上传失败的情况
         }
     },
-    onSubmit(data){
+    onSubmit(){
+      var that = this;
           axios({
                     method:'get',
                     url:'/REST/login',
@@ -70,10 +64,17 @@ export default {
                    //TODO 登录成功的处理
                    if(response&&response.data){
                       console.log(response.data); 
+                      that.loginResult = response.data;
+                      this.sendMsgToParent();
+
                    }
                    
                 }).catch(error => console.log(error));
     },
+    sendMsgToParent(){
+      this.$emit("listenToChildEvent",this.loginResult);
+    },
   },
 };
+
 </script>

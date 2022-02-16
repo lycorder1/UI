@@ -66,9 +66,6 @@
       
       
       </div>
-
-      <br>
-      <el-progress type="circle" :percentage="pg" v-show="progStatus"></el-progress>
   </div>
 </template>
 
@@ -94,8 +91,6 @@ export default {
       input4: '',
       input5: '',
       input6: '',
-      pg:0,
-      progStatus:false,
     };
   },
   methods: {
@@ -106,7 +101,7 @@ export default {
             eval(" setTimeout(function(){ that.$refs.input"+(index+1)+".focus();that.$refs.input"+(index+1)+".select(); },50); ");
             else if(this.input1&&this.input2&&this.input3&&this.input4&&this.input5&&this.input6)
             {
-               downFile(this.input1+this.input2+this.input3+this.input4+this.input5+this.input6,that)
+               downFile(this.input1+this.input2+this.input3+this.input4+this.input5+this.input6)
             }
        }else{
             if(index>1)
@@ -129,7 +124,7 @@ export default {
         });
         if(this.input1&&this.input2&&this.input3&&this.input4&&this.input5&&this.input6)
         {
-            downFile(this.input1+this.input2+this.input3+this.input4+this.input5+this.input6,that)
+            downFile(this.input1+this.input2+this.input3+this.input4+this.input5+this.input6)
         }
    }
   },
@@ -138,20 +133,15 @@ export default {
   }
 };
 
-function downFile(code,data){
-  var that = data;
-  that.progStatus = true;         
-          //调用下载接口
+function downFile(code){
+//TODO 调用下载接口
                 axios({
                     method:'get',
                     url:'/REST/FileTransfer/file/down',
                      params: {
                         code: code
                     },
-                    responseType: 'blob',
-                    onDownloadProgress(progress){
-                       that.pg = Math.round(progress.loaded/progress.total*100);
-                    }
+                    responseType: 'blob'
                     // data: {
                     //         code: 'jZIvKY'
                     //     }
@@ -159,8 +149,10 @@ function downFile(code,data){
                     // console.log(response);       //请求成功返回的数据
                     let fileName = response.headers["content-filename"];
                     let contentType = response.headers["content-type"];
+                    // const data = response; // 这里填内容的字符串
                     const blob = new Blob([response.data],{type: contentType});
                     let url = window.URL.createObjectURL(blob);
+                    // let url =URL.createObjectURL(response);
                     let link = document.createElement('a');
                     link.style.display = 'none';
                     link.href = url;
@@ -174,7 +166,14 @@ function downFile(code,data){
                     link.click();
                     // 释放创建的对象(创建的新的URL必须通过该方法释放)
                     window.URL.revokeObjectURL(url);
-                    that.pg = 100;
+                    // const blob = new Blob([data], {type: contentType});
+                    // //const blob = new Blob([data], {type: 'audio/wav'})
+                    // const a= document.createElement("a");
+                    // a.href = URL.createObjectURL(blob);
+                    // a.download = fileName; // 这里填保存成的文件名
+                    // a.click();
+                    // URL.revokeObjectURL(a.href);
+                    // a.remove();
                 }).catch(error => console.log(error));
 }
 
@@ -183,7 +182,6 @@ function downFile(code,data){
 <style scoped>
 .inputlog {
  margin:0 10px;
- min-width: 50px;
  width:50px;
 }
 
